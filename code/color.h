@@ -6,7 +6,7 @@
 
 void write_color(std::ostream &out, vec3 color)
 {
-	const double char_conversion = 255.999;
+	const float char_conversion = 255.999;
 	int ir = static_cast<int>(char_conversion * color.x());
 	int ig = static_cast<int>(char_conversion * color.y());
 	int ib = static_cast<int>(char_conversion * color.z());

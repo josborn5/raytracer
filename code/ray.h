@@ -11,13 +11,13 @@ class ray
 			: orig(origin), dir(direction)
 		{}
 
-		vec3 origin() const { return orig; }
-		vec3 direction() const { return dir; }
+		vec3 origin() { return orig; }
+		vec3 direction() { return dir; }
 
-		vec3 point_at_time(double t)
+		vec3 point_at_time(float t)
 		{
-			vec3 delta = dir.multiply_by_scalar(t);
-			vec3 result = orig.add_vector(delta);
+			vec3 delta = multiply_by_scalar(dir, t);
+			vec3 result = add_vectors(orig, delta);
 			return result;
 		}
 

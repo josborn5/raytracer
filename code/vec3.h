@@ -12,20 +12,20 @@ class vec3
 		vec3()
 			: e{ 0, 0, 0 }
 		{}
-		vec3(double e0, double e1, double e2)
+		vec3(float e0, float e1, float e2)
 			: e{ e0, e1, e2 }
 		{}
 
-		double x() const { return e[0]; }
-		double y() const { return e[1]; }
-		double z() const { return e[2]; }
+		float x() { return e[0]; }
+		float y() { return e[1]; }
+		float z() { return e[2]; }
 
 		vec3 negate()
 		{
 			return vec3(-e[0], -e[1], -e[3]);
 		}
 
-		vec3 multiply_by_scalar(double t)
+		vec3 multiply_current(float t)
 		{
 			e[0] *= t;
 			e[1] *= t;
@@ -33,7 +33,7 @@ class vec3
 			return *this;
 		}
 
-		vec3 add_vector(const vec3 v)
+		vec3 add_current(vec3 v)
 		{
 			e[0] += v.e[0];
 			e[1] += v.e[1];
@@ -41,19 +41,40 @@ class vec3
 			return *this;
 		}
 
-		double length() const
+		float length()
 		{
 			return sqrt(length_squared());
 		}
 
-		double length_squared() const
+		float length_squared()
 		{
 			return (e[0] * e[0]) + (e[1] * e[1]) + (e[2] * e[2]);
 		}
 
 	private:
-		double e[3];
+		float e[3];
 
 };
+
+vec3 add_vectors(vec3 v1, vec3 v2)
+{
+	return vec3(v1.x() + v2.x(), v1.y() + v2.y(), v1.z() + v1.z());
+}
+
+vec3 subtract_vectors(vec3 v1, vec3 v2)
+{
+	return vec3(v1.x() - v2.x(), v1.y() - v2.y(), v1.z() - v1.z());
+}
+
+vec3 multiply_by_scalar(vec3 v, float t)
+{
+	return vec3(v.x() * t, v.y() * t, v.z() * t);
+}
+
+vec3 unit_vector(vec3 v)
+{
+	float scale_factor = 1 / v.length();
+	return multiply_by_scalar(v, scale_factor);
+}
 
 #endif
