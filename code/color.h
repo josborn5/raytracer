@@ -4,7 +4,7 @@
 #include "vec3.h"
 #include <iostream>
 
-void write_color(std::ostream &out, vec3 color)
+void write_color(std::ostream& out, vec3& color)
 {
 	const float char_conversion = 255.999;
 	int ir = static_cast<int>(char_conversion * color.x());
