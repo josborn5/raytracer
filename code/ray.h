@@ -7,7 +7,7 @@ class ray
 {
 	public:
 		ray() {}
-		ray(vec3& origin, vec3& direction)
+		ray(const vec3& origin, const vec3& direction)
 			: orig(origin), dir(direction)
 		{}
 

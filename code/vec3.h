@@ -58,17 +58,29 @@ class vec3
 
 vec3 add_vectors(const vec3& v1, const vec3& v2)
 {
-	return vec3(v1.x() + v2.x(), v1.y() + v2.y(), v1.z() + v1.z());
+	return vec3(
+		v1.x() + v2.x(),
+		v1.y() + v2.y(),
+		v1.z() + v2.z()
+	);
 }
 
 vec3 subtract_vectors(const vec3& v1, const vec3& v2)
 {
-	return vec3(v1.x() - v2.x(), v1.y() - v2.y(), v1.z() - v1.z());
+	return vec3(
+		v1.x() - v2.x(),
+		v1.y() - v2.y(),
+		v1.z() - v2.z()
+	);
 }
 
 vec3 multiply_by_scalar(const vec3& v, float t)
 {
-	return vec3(v.x() * t, v.y() * t, v.z() * t);
+	return vec3(
+		v.x() * t,
+		v.y() * t,
+		v.z() * t
+	);
 }
 
 vec3 unit_vector(const vec3& v)
