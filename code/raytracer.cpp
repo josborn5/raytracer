@@ -3,24 +3,37 @@
 #include "ray.h"
 #include <iostream>
 
-bool hit_sphere(const ray &r, const vec3 &sphere_center, float sphere_radius)
+using std::sqrt;
+
+float hit_sphere(const ray &r, const vec3 &sphere_center, float sphere_radius)
 {
 	vec3 origin_to_sphere_center = subtract_vectors(r.origin(), sphere_center);
 	float a = dot_product(r.direction(), r.direction());
 	float b = 2.0f * dot_product(origin_to_sphere_center, r.direction());
 	float c = dot_product(origin_to_sphere_center, origin_to_sphere_center) - (sphere_radius * sphere_radius);
-	float discriminant = (b * b) - (4 * a * c);
-	return (discriminant > 0.0f);
+	float discriminant = (b * b) - (4.0f * a * c);
+	if (discriminant < 0.0f)
+	{
+		return -1.0f;
+	}
+	else
+	{
+		return (-b - sqrt(discriminant)) / (2.0f * a);
+	}
 }
 
 vec3 ray_color(const ray &r)
 {
-	if (hit_sphere(r, vec3(0, 0, -1), 0.5))
+	vec3 sphere_center = vec3(0, 0, -1);
+	float t_collision = hit_sphere(r, sphere_center, 0.5);
+	if (t_collision > 0.0f)
 	{
-		return vec3(1, 0, 0);
+		vec3 normal = subtract_vectors(r.point_at_time(t_collision), sphere_center);
+		vec3 unit_normal = unit_vector(normal);
+		return multiply_by_scalar(vec3(unit_normal.x() + 1.0f, unit_normal.y() + 1.0f, unit_normal.z() + 1.0f), 0.5);
 	}
 	vec3 unit_direction = unit_vector(r.direction());
-	float t = 0.5*(unit_direction.y() + 1.0);
+	float t = 0.5f * (unit_direction.y() + 1.0f);
 	vec3 white_blend = multiply_by_scalar(vec3(1.0, 1.0, 1.0), 1.0 - t);
 	vec3 blue_blend = multiply_by_scalar(vec3(0.5, 0.7, 1.0), t);
 
@@ -29,7 +42,7 @@ vec3 ray_color(const ray &r)
 
 int main()
 {
-	const float aspect_ratio = 16.0 / 9.0;
+	const float aspect_ratio = 16.0f / 9.0f;
 	const int image_width = 384;
 	const int image_height = static_cast<int>(image_width / aspect_ratio);
 
@@ -37,15 +50,15 @@ int main()
 	const int max_color = 255;
 	std::cout << "P3\n" << image_width << " " << image_height << "\n" << max_color << "\n";
 
-	float viewport_height = 2.0;
+	float viewport_height = 2.0f;
 	float viewport_width = aspect_ratio * viewport_height;
-	float focal_length = 1.0;
+	float focal_length = 1.0f;
 
 	vec3 origin = vec3(0, 0, 0);
 	vec3 horizontal = vec3(viewport_width, 0, 0);
 	vec3 vertical = vec3(0, viewport_height, 0);
-	vec3 half_horizontal = multiply_by_scalar(horizontal, -0.5);
-	vec3 half_vertical  = multiply_by_scalar(vertical, -0.5);
+	vec3 half_horizontal = multiply_by_scalar(horizontal, -0.5f);
+	vec3 half_vertical  = multiply_by_scalar(vertical, -0.5f);
 
 	vec3 lower_left = add_three_vectors(origin, half_horizontal, half_vertical);
 	vec3 focal_plane_lower_left = add_two_vectors(lower_left, vec3(0, 0, -focal_length));
