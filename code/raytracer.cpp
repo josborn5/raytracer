@@ -8,17 +8,17 @@ using std::sqrt;
 float hit_sphere(const ray &r, const vec3 &sphere_center, float sphere_radius)
 {
 	vec3 origin_to_sphere_center = subtract_vectors(r.origin(), sphere_center);
-	float a = dot_product(r.direction(), r.direction());
-	float b = 2.0f * dot_product(origin_to_sphere_center, r.direction());
+	float a = r.direction().length_squared();
+	float half_b = dot_product(origin_to_sphere_center, r.direction());
 	float c = dot_product(origin_to_sphere_center, origin_to_sphere_center) - (sphere_radius * sphere_radius);
-	float discriminant = (b * b) - (4.0f * a * c);
+	float discriminant = (half_b * half_b) - (a * c);
 	if (discriminant < 0.0f)
 	{
 		return -1.0f;
 	}
 	else
 	{
-		return (-b - sqrt(discriminant)) / (2.0f * a);
+		return (-half_b - sqrt(discriminant)) / a;
 	}
 }
 
