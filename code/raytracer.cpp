@@ -3,8 +3,22 @@
 #include "ray.h"
 #include <iostream>
 
-vec3 ray_color(ray r)
+bool hit_sphere(const ray &r, const vec3 &sphere_center, float sphere_radius)
 {
+	vec3 origin_to_sphere_center = subtract_vectors(r.origin(), sphere_center);
+	float a = dot_product(r.direction(), r.direction());
+	float b = 2.0f * dot_product(origin_to_sphere_center, r.direction());
+	float c = dot_product(origin_to_sphere_center, origin_to_sphere_center) - (sphere_radius * sphere_radius);
+	float discriminant = (b * b) - (4 * a * c);
+	return (discriminant > 0.0f);
+}
+
+vec3 ray_color(const ray &r)
+{
+	if (hit_sphere(r, vec3(0, 0, -1), 0.5))
+	{
+		return vec3(1, 0, 0);
+	}
 	vec3 unit_direction = unit_vector(r.direction());
 	float t = 0.5*(unit_direction.y() + 1.0);
 	vec3 white_blend = multiply_by_scalar(vec3(1.0, 1.0, 1.0), 1.0 - t);
