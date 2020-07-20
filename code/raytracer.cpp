@@ -7,9 +7,10 @@ vec3 ray_color(ray r)
 {
 	vec3 unit_direction = unit_vector(r.direction());
 	float t = 0.5*(unit_direction.y() + 1.0);
-	vec3 c1 = multiply_by_scalar(vec3(1.0, 1.0, 1.0), 1.0 - t);
-	vec3 c2 = multiply_by_scalar(vec3(0.5, 0.7, 1.0), t);
-	return add_vectors(c1, c2);
+	vec3 white_blend = multiply_by_scalar(vec3(1.0, 1.0, 1.0), 1.0 - t);
+	vec3 blue_blend = multiply_by_scalar(vec3(0.5, 0.7, 1.0), t);
+
+	return add_two_vectors(white_blend, blue_blend);
 }
 
 int main()
@@ -29,10 +30,11 @@ int main()
 	vec3 origin = vec3(0, 0, 0);
 	vec3 horizontal = vec3(viewport_width, 0, 0);
 	vec3 vertical = vec3(0, viewport_height, 0);
+	vec3 half_horizontal = multiply_by_scalar(horizontal, -0.5);
+	vec3 half_vertical  = multiply_by_scalar(vertical, -0.5);
 
-	vec3 half_horizontal = multiply_by_scalar(horizontal, 0.5);
-	vec3 half_vertical = multiply_by_scalar(vertical, 0.5);
-	vec3 lower_left_corner = subtract_vectors(origin, subtract_vectors(half_horizontal, subtract_vectors(half_vertical, vec3(0, 0, focal_length))));
+	vec3 lower_left = add_three_vectors(origin, half_horizontal, half_vertical);
+	vec3 focal_plane_lower_left = add_two_vectors(lower_left, vec3(0, 0, -focal_length));
 	
 	for (int j = image_height - 1; j >= 0; --j)
 	{
@@ -42,9 +44,11 @@ int main()
 			float u = float(i) / (image_width - 1);
 			float v = float(j) / (image_height - 1);
 
-			vec3 horizontal_v = multiply_by_scalar(horizontal, u);
-			vec3 vertical_v = multiply_by_scalar(vertical, v);
-			vec3 direction = add_vectors(lower_left_corner, add_vectors(horizontal_v, subtract_vectors(vertical_v, origin)));
+			vec3 horizontal_offset = multiply_by_scalar(horizontal, u);
+			vec3 vertical_offset = multiply_by_scalar(vertical, v);
+
+			vec3 point_on_focal_plane = add_three_vectors(focal_plane_lower_left, horizontal_offset, vertical_offset);
+			vec3 direction = subtract_vectors(point_on_focal_plane, origin);
 			ray r = ray(origin, direction);
 
 			vec3 pixel_color = ray_color(r);
