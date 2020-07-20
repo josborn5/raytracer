@@ -45,4 +45,8 @@ int main()
 	assert(vector_subtraction.x() == (float)2.4);
 	assert(vector_subtraction.y() == (float)-4.6);
 	assert(vector_subtraction.z() == (float)6.8);
+
+	// dot_product
+	float dot = dot_product(vec3(1, 2, 3), vec3(4, 5, 6));
+	assert(dot == (float)32);
 }

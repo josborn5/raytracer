@@ -33,7 +33,7 @@ class vec3
 			return *this;
 		}
 
-		vec3 add_current(const vec3& v)
+		vec3 add_current(const vec3 &v)
 		{
 			e[0] += v.e[0];
 			e[1] += v.e[1];
@@ -56,7 +56,7 @@ class vec3
 
 };
 
-vec3 add_two_vectors(const vec3& v1, const vec3& v2)
+vec3 add_two_vectors(const vec3 &v1, const vec3 &v2)
 {
 	return vec3(
 		v1.x() + v2.x(),
@@ -65,7 +65,7 @@ vec3 add_two_vectors(const vec3& v1, const vec3& v2)
 	);
 }
 
-vec3 add_three_vectors(const vec3& v1, const vec3& v2, const vec3& v3)
+vec3 add_three_vectors(const vec3 &v1, const vec3 &v2, const vec3 &v3)
 {
 	return vec3(
 		v1.x() + v2.x() + v3.x(),
@@ -74,7 +74,7 @@ vec3 add_three_vectors(const vec3& v1, const vec3& v2, const vec3& v3)
 	);
 }
 
-vec3 subtract_vectors(const vec3& v1, const vec3& v2)
+vec3 subtract_vectors(const vec3 &v1, const vec3 &v2)
 {
 	return vec3(
 		v1.x() - v2.x(),
@@ -83,7 +83,7 @@ vec3 subtract_vectors(const vec3& v1, const vec3& v2)
 	);
 }
 
-vec3 multiply_by_scalar(const vec3& v, float t)
+vec3 multiply_by_scalar(const vec3 &v, float t)
 {
 	return vec3(
 		v.x() * t,
@@ -92,10 +92,18 @@ vec3 multiply_by_scalar(const vec3& v, float t)
 	);
 }
 
-vec3 unit_vector(const vec3& v)
+vec3 unit_vector(const vec3 &v)
 {
 	float scale_factor = 1 / v.length();
 	return multiply_by_scalar(v, scale_factor);
+}
+
+float dot_product(const vec3 &v1, const vec3 &v2)
+{
+	return
+		(v1.x() * v2.x()) +
+		(v1.y() * v2.y()) +
+		(v1.z() * v2.z());
 }
 
 #endif
