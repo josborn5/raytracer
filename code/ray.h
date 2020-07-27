@@ -17,7 +17,7 @@ class ray
 		vec3 point_at_time(float t) const
 		{
 			vec3 delta = multiply_by_scalar(dir, t);
-			vec3 result = add_two_vectors(orig, delta);
+			vec3 result = add_vectors(orig, delta);
 			return result;
 		}
 

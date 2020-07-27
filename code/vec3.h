@@ -56,7 +56,7 @@ class vec3
 
 };
 
-vec3 add_two_vectors(const vec3 &v1, const vec3 &v2)
+vec3 add_vectors(const vec3 &v1, const vec3 &v2)
 {
 	return vec3(
 		v1.x() + v2.x(),
@@ -65,7 +65,7 @@ vec3 add_two_vectors(const vec3 &v1, const vec3 &v2)
 	);
 }
 
-vec3 add_three_vectors(const vec3 &v1, const vec3 &v2, const vec3 &v3)
+vec3 add_vectors(const vec3 &v1, const vec3 &v2, const vec3 &v3)
 {
 	return vec3(
 		v1.x() + v2.x() + v3.x(),

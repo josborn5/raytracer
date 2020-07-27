@@ -30,12 +30,12 @@ int main()
 	assert(scalar_multiple.z() == 48);
 
 	// add_vectors
-	vec3 vector_addition = add_two_vectors(vec3(1.2, -2.3, 3.4), vec3(1.2, -2.3, 3.4));
+	vec3 vector_addition = add_vectors(vec3(1.2, -2.3, 3.4), vec3(1.2, -2.3, 3.4));
 	assert(vector_addition.x() == (float)2.4);
 	assert(vector_addition.y() == (float)-4.6);
 	assert(vector_addition.z() == (float)6.8);
 
-	vec3 three_vector_addition = add_three_vectors(vec3(1, -2, 3), vec3(1, -2, 3), vec3(1, -2, 3));
+	vec3 three_vector_addition = add_vectors(vec3(1, -2, 3), vec3(1, -2, 3), vec3(1, -2, 3));
 	assert(three_vector_addition.x() == (float)3);
 	assert(three_vector_addition.y() == (float)-6);
 	assert(three_vector_addition.z() == (float)9);

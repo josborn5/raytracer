@@ -12,7 +12,7 @@ vec3 ray_color(const ray &r, const hittable_list &world)
 	hit_record hit;
 	if (world.hit(r, 0, infinity, hit))
 	{
-		vec3 normal_color = add_two_vectors(hit.normal, vec3(1.0f, 1.0f, 1.0f));
+		vec3 normal_color = add_vectors(hit.normal, vec3(1.0f, 1.0f, 1.0f));
 		return multiply_by_scalar(normal_color, 0.5f);
 	}
 	vec3 unit_direction = unit_vector(r.direction());
@@ -20,7 +20,7 @@ vec3 ray_color(const ray &r, const hittable_list &world)
 	vec3 white_blend = multiply_by_scalar(vec3(1.0, 1.0, 1.0), 1.0 - t);
 	vec3 blue_blend = multiply_by_scalar(vec3(0.5, 0.7, 1.0), t);
 
-	return add_two_vectors(white_blend, blue_blend);
+	return add_vectors(white_blend, blue_blend);
 }
 
 int main()
@@ -49,8 +49,8 @@ int main()
 	vec3 half_horizontal = multiply_by_scalar(horizontal, -0.5f);
 	vec3 half_vertical  = multiply_by_scalar(vertical, -0.5f);
 
-	vec3 lower_left = add_three_vectors(origin, half_horizontal, half_vertical);
-	vec3 focal_plane_lower_left = add_two_vectors(lower_left, vec3(0, 0, -focal_length));
+	vec3 lower_left = add_vectors(origin, half_horizontal, half_vertical);
+	vec3 focal_plane_lower_left = add_vectors(lower_left, vec3(0, 0, -focal_length));
 	
 	for (int j = image_height - 1; j >= 0; --j)
 	{
@@ -63,7 +63,7 @@ int main()
 			vec3 horizontal_offset = multiply_by_scalar(horizontal, u);
 			vec3 vertical_offset = multiply_by_scalar(vertical, v);
 
-			vec3 point_on_focal_plane = add_three_vectors(focal_plane_lower_left, horizontal_offset, vertical_offset);
+			vec3 point_on_focal_plane = add_vectors(focal_plane_lower_left, horizontal_offset, vertical_offset);
 			vec3 direction = subtract_vectors(point_on_focal_plane, origin);
 			ray r = ray(origin, direction);
 
