@@ -3,6 +3,7 @@
 
 #include<cmath>
 #include<iostream>
+#include "constants.h"
 
 using std::sqrt;
 
@@ -104,6 +105,20 @@ float dot_product(const vec3 &v1, const vec3 &v2)
 		(v1.x() * v2.x()) +
 		(v1.y() * v2.y()) +
 		(v1.z() * v2.z());
+}
+
+vec3 random_vec3(float min, float max)
+{
+	return vec3(random_float(min, max), random_float(min, max), random_float(min, max));
+}
+
+vec3 random_in_unit_sphere()
+{
+	while (true)
+	{
+		vec3 p = random_vec3(-1, 1);
+		if (p.length_squared() < 1) return p;
+	}
 }
 
 #endif

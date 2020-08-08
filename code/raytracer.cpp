@@ -8,12 +8,20 @@
 #include "ray.h"
 #include <iostream>
 
-vec3 ray_color(const ray &r, const hittable_list &world)
+vec3 ray_color(const ray &r, const hittable_list &world, int depth)
 {
 	hit_record hit;
+
+	if (depth <= 0)
+	{
+		return vec3(0.0f, 0.0f, 0.0f);
+	}
+
 	if (world.hit(r, 0, infinity, hit))
 	{
-		vec3 normal_color = add_vectors(hit.normal, vec3(1.0f, 1.0f, 1.0f));
+		vec3 target = add_vectors(hit.position, hit.normal, random_in_unit_sphere());
+		ray new_ray = ray(hit.position, subtract_vectors(target, hit.position));
+		vec3 normal_color = ray_color(new_ray, world, depth - 1);
 		return multiply_by_scalar(normal_color, 0.5f);
 	}
 	vec3 unit_direction = unit_vector(r.direction());
@@ -28,9 +36,10 @@ int main()
 {
 	// Image
 	const float aspect_ratio = 16.0f / 9.0f;
-	const int image_width = 384;
+	const int image_width = 400;
 	const int image_height = static_cast<int>(image_width / aspect_ratio);
 	const int samples_per_pixel = 100;
+	int max_depth = 50;
 
 	// Log the content of a ppm file format to console (so the caller of this program can pipe to a file to create an image file)
 	const int max_color = 255;
@@ -56,7 +65,7 @@ int main()
 				float v = (j + random_float()) / (image_height - 1);
 
 				ray r = cam.get_ray(u, v);
-				vec3 sample_color = ray_color(r, world);
+				vec3 sample_color = ray_color(r, world, max_depth);
 				pixel_color.add_current(sample_color);
 			}
 
