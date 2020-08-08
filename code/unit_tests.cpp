@@ -49,4 +49,29 @@ int main()
 	// dot_product
 	float dot = dot_product(vec3(1, 2, 3), vec3(4, 5, 6));
 	assert(dot == (float)32);
+
+	// random_vec3
+	for (int i = 0; i < 10; ++i)
+	{
+		vec3 random_vector = random_vec3(-45, 45);
+		assert(random_vector.x() < 45);
+		assert(random_vector.x() > -45);
+		assert(random_vector.y() < 45);
+		assert(random_vector.y() > -45);
+		assert(random_vector.z() < 45);
+		assert(random_vector.z() > -45);
+	}
+
+	// random_in_unit_sphere
+	for (int i = 0; i < 10; ++i)
+	{
+		vec3 random_vector_in_sphere = random_in_unit_sphere();
+		assert(random_vector_in_sphere.x() < 1);
+		assert(random_vector_in_sphere.x() > -1);
+		assert(random_vector_in_sphere.y() < 1);
+		assert(random_vector_in_sphere.y() > -1);
+		assert(random_vector_in_sphere.z() < 1);
+		assert(random_vector_in_sphere.z() > -1);
+		assert(random_vector_in_sphere.length_squared() < 1);
+	}
 }
