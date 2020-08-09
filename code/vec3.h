@@ -52,6 +52,11 @@ class vec3
 			return (e[0] * e[0]) + (e[1] * e[1]) + (e[2] * e[2]);
 		}
 
+		static vec3 random(float min, float max)
+		{
+			return vec3(random_float(min, max), random_float(min, max), random_float(min, max));
+		}
+
 	private:
 		float e[3];
 
@@ -107,16 +112,11 @@ float dot_product(const vec3 &v1, const vec3 &v2)
 		(v1.z() * v2.z());
 }
 
-vec3 random_vec3(float min, float max)
-{
-	return vec3(random_float(min, max), random_float(min, max), random_float(min, max));
-}
-
 vec3 random_in_unit_sphere()
 {
 	while (true)
 	{
-		vec3 p = random_vec3(-1, 1);
+		vec3 p = vec3::random(-1, 1);
 		if (p.length_squared() < 1) return p;
 	}
 }

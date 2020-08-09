@@ -52,7 +52,7 @@ void run_vec3_tests()
 	// random_vec3
 	for (int i = 0; i < 10; ++i)
 	{
-		vec3 random_vector = random_vec3(-45, 45);
+		vec3 random_vector = vec3::random(-45, 45);
 		std::cout << "random_vector - x: " << random_vector.x() << " y: " << random_vector.y() << " z: " << random_vector.z() << "\n";
 		assert(random_vector.x() < 45);
 		assert(random_vector.x() > -45);

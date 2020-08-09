@@ -17,9 +17,9 @@ vec3 ray_color(const ray &r, const hittable_list &world, int depth)
 		return vec3(0.0f, 0.0f, 0.0f);
 	}
 
-	if (world.hit(r, 0, infinity, hit))
+	if (world.hit(r, 0.001, infinity, hit))
 	{
-		vec3 target = add_vectors(hit.position, hit.normal, random_in_unit_sphere());
+		vec3 target = add_vectors(hit.position, hit.normal, random_unit_vec3());
 		ray new_ray = ray(hit.position, subtract_vectors(target, hit.position));
 		vec3 normal_color = ray_color(new_ray, world, depth - 1);
 		return multiply_by_scalar(normal_color, 0.5f);
@@ -46,9 +46,13 @@ int main()
 	std::cout << "P3\n" << image_width << " " << image_height << "\n" << max_color << "\n";
 
 	// World
-	hittable_list world;
-	world.add(std::make_shared<sphere>(vec3(0.0f, 0.0f, -1.0f), 0.5f));
-	world.add(std::make_shared<sphere>(vec3(0.0f, -100.5f, -1.0f), -100.0f));
+	hittable_list world = hittable_list();
+	float small_radius = 0.5f;
+	float big_radius = 100.0f;
+	sphere small_sphere = sphere(vec3(0.0f, 0.0f, -1.0f), small_radius);
+	sphere big_sphere = sphere(vec3(0.0f, -(small_radius + big_radius), -1.0f), big_radius);
+	world.add(std::make_shared<sphere>(small_sphere));
+	world.add(std::make_shared<sphere>(big_sphere));
 
 	// Camera
 	camera cam;
