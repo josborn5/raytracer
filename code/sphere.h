@@ -12,18 +12,21 @@ class sphere : public hittable
 
 		virtual bool hit(const ray& r, float t_min, float t_max, hit_record& hit) const override;
 
+	private:
+		void populate_hit_record(hit_record& hit, float collision_time,const ray& r, const vec3& sphere_center, std::shared_ptr<material> mat_ptr) const
+		{
+			hit.time = collision_time;
+			hit.position = r.point_at_time(hit.time);
+			vec3 outward_normal = subtract_vectors(hit.position, sphere_center);
+			vec3 unit_outward_normal = multiply_by_scalar(outward_normal, (1.0f / radius));
+			hit.set_face_normal(r, unit_outward_normal);
+			hit.mat_ptr = mat_ptr;
+		};
+
 	public:
 		vec3 center;
 		float radius;
 };
-
-void populate_hit_record(hit_record& hit, float collision_time,const ray& r, const vec3& sphere_center)
-{
-	hit.time = collision_time;
-	hit.position = r.point_at_time(hit.time);
-	vec3 outward_normal = subtract_vectors(hit.position, sphere_center);
-	hit.set_face_normal(r, outward_normal);
-}
 
 bool sphere::hit(const ray& r, float t_min, float t_max, hit_record& hit) const
 {
