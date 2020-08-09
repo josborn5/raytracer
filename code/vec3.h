@@ -121,4 +121,12 @@ vec3 random_in_unit_sphere()
 	}
 }
 
+vec3 random_unit_vec3()
+{
+	float a = random_float(0, 2 * pi);
+	float z = random_float(-1, 1);
+	float r = sqrt(1 - (z * z));
+	return vec3(r * cos(a), r * sin(a), z);
+}
+
 #endif

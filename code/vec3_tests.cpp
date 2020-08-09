@@ -75,4 +75,17 @@ void run_vec3_tests()
 		assert(random_vector_in_sphere.z() > -1);
 		assert(random_vector_in_sphere.length_squared() < 1);
 	}
+
+	// random unit vector
+	for (int i = 0; i < 10; ++i)
+	{
+		vec3 random_unit_vector = random_unit_vec3();
+		std::cout << "random_unit_vector - x: " << random_unit_vector.x() << " y: " << random_unit_vector.y() << " z: " << random_unit_vector.z() << "\n";
+		assert(random_unit_vector.x() < 1);
+		assert(random_unit_vector.x() > -1);
+		assert(random_unit_vector.y() < 1);
+		assert(random_unit_vector.y() > -1);
+		assert(random_unit_vector.z() < 1);
+		assert(random_unit_vector.z() > -1);
+	}
 }
