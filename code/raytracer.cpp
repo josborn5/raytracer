@@ -6,6 +6,7 @@
 #include "vec3.h"
 #include "color.h"
 #include "ray.h"
+#include "lambertian.h"
 #include <iostream>
 
 vec3 ray_color(const ray &r, const hittable_list &world, int depth)
@@ -19,10 +20,14 @@ vec3 ray_color(const ray &r, const hittable_list &world, int depth)
 
 	if (world.hit(r, 0.001, infinity, hit))
 	{
-		vec3 target = add_vectors(hit.position, hit.normal, random_unit_vec3());
-		ray new_ray = ray(hit.position, subtract_vectors(target, hit.position));
-		vec3 normal_color = ray_color(new_ray, world, depth - 1);
-		return multiply_by_scalar(normal_color, 0.5f);
+		ray scattered;
+		vec3 attenuation;
+		if (hit.mat_ptr->scatter(r, hit, attenuation, scattered))
+		{
+			vec3 new_color = ray_color(scattered, world, depth - 1);
+			return multiply_vectors(attenuation, new_color);
+		}
+		return vec3(0.0f, 0.0f, 0.0f);
 	}
 	vec3 unit_direction = unit_vector(r.direction());
 	float t = 0.5f * (unit_direction.y() + 1.0f);
@@ -46,11 +51,15 @@ int main()
 	std::cout << "P3\n" << image_width << " " << image_height << "\n" << max_color << "\n";
 
 	// World
-	hittable_list world = hittable_list();
+	lambertian ground = lambertian(vec3(0.8f, 0.8f, 0.0f));
+	lambertian center = lambertian(vec3(0.7f, .3f, 0.3f));
+
 	float small_radius = 0.5f;
 	float big_radius = 100.0f;
-	sphere small_sphere = sphere(vec3(0.0f, 0.0f, -1.0f), small_radius);
-	sphere big_sphere = sphere(vec3(0.0f, -(small_radius + big_radius), -1.0f), big_radius);
+	sphere small_sphere = sphere(vec3(0.0f, 0.0f, -1.0f), small_radius, std::make_shared<lambertian>(center));
+	sphere big_sphere = sphere(vec3(0.0f, -(small_radius + big_radius), -1.0f), big_radius, std::make_shared<lambertian>(ground));
+
+	hittable_list world = hittable_list();
 	world.add(std::make_shared<sphere>(small_sphere));
 	world.add(std::make_shared<sphere>(big_sphere));
 

@@ -89,6 +89,15 @@ vec3 subtract_vectors(const vec3 &v1, const vec3 &v2)
 	);
 }
 
+vec3 multiply_vectors(const vec3 &v1, const vec3 &v2)
+{
+	return vec3(
+		v1.x() * v2.x(),
+		v1.y() * v2.y(),
+		v1.z() * v2.z()
+	);
+}
+
 vec3 multiply_by_scalar(const vec3 &v, float t)
 {
 	return vec3(

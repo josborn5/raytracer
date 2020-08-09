@@ -1,13 +1,16 @@
 #ifndef HITTABLE_H
 #define HITTABLE_H
 
+#include <memory>
 #include "vec3.h"
 #include "ray.h"
+#include "material.h"
 
 struct hit_record
 {
 	vec3 position;
 	vec3 normal;
+	std::shared_ptr<material> mat_ptr;
 	float time;
 	bool front_face;
 

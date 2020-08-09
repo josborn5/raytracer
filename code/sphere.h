@@ -8,7 +8,8 @@ class sphere : public hittable
 {
 	public:
 		sphere() {}
-		sphere (const vec3 center, float radius) : center(center), radius(radius) {};
+		sphere (const vec3 center, float radius, std::shared_ptr<material> m)
+			: center(center), radius(radius), mat_ptr(m) {};
 
 		virtual bool hit(const ray& r, float t_min, float t_max, hit_record& hit) const override;
 
@@ -26,6 +27,7 @@ class sphere : public hittable
 	public:
 		vec3 center;
 		float radius;
+		std::shared_ptr<material>  mat_ptr;
 };
 
 bool sphere::hit(const ray& r, float t_min, float t_max, hit_record& hit) const
@@ -43,14 +45,14 @@ bool sphere::hit(const ray& r, float t_min, float t_max, hit_record& hit) const
 		float collision_time = (-half_b - root) / a;
 		if (collision_time < t_max && collision_time > t_min)
 		{
-			populate_hit_record(hit, collision_time, r, center);
+			populate_hit_record(hit, collision_time, r, center, mat_ptr);
 			return true;
 		}
 
 		collision_time = (-half_b + root) / a;
 		if (collision_time < t_max && collision_time > t_min)
 		{
-			populate_hit_record(hit, collision_time, r, center);
+			populate_hit_record(hit, collision_time, r, center, mat_ptr);
 			return true;
 		}
 	}

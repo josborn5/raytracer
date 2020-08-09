@@ -1,6 +1,8 @@
 #include "sphere.h"
+#include "lambertian.h"
 #include <assert.h>
 #include <iostream>
+#include <memory>
 
 void print_hit_result(const hit_record &hit, bool collision)
 {
@@ -18,6 +20,8 @@ void print_hit_result(const hit_record &hit, bool collision)
 
 void run_sphere_tests()
 {
+	std::shared_ptr<lambertian> arbitrary_material = std::make_shared<lambertian>(lambertian(vec3(0.0f, 0.0f, 0.0f)));
+
 	float t_min = 0.0f;
 	float t_max = 10.0f;
 	float sphere_radius = 2.0f;
@@ -25,7 +29,7 @@ void run_sphere_tests()
 	vec3 positive_x_position = vec3(2.0f * sphere_radius, 0.0f, 0.0f);
 	vec3 to_negative_x = vec3(-1.0f, 0.0f, 0.0f);
 	ray ray_to_origin = ray(positive_x_position, to_negative_x);
-	sphere sphere_at_origin = sphere(origin, sphere_radius);
+	sphere sphere_at_origin = sphere(origin, sphere_radius, arbitrary_material);
 
 	bool collision;
 	hit_record output;
@@ -66,7 +70,7 @@ void run_sphere_tests()
 	assert(output.normal.length_squared() <= 1.0f);
 
 	// off center hit along x-axis to sphere off the origin
-	sphere sphere_off_origin = sphere(vec3(0.0f, -0.5f, 0.0f), sphere_radius);
+	sphere sphere_off_origin = sphere(vec3(0.0f, -0.5f, 0.0f), sphere_radius, arbitrary_material);
 
 	output = {};
 	collision = sphere_off_origin.hit(ray_to_origin, t_min, t_max, output);
