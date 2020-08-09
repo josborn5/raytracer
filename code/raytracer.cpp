@@ -7,6 +7,7 @@
 #include "color.h"
 #include "ray.h"
 #include "lambertian.h"
+#include "metal.h"
 #include <iostream>
 
 vec3 ray_color(const ray &r, const hittable_list &world, int depth)
@@ -53,15 +54,21 @@ int main()
 	// World
 	lambertian ground = lambertian(vec3(0.8f, 0.8f, 0.0f));
 	lambertian center = lambertian(vec3(0.7f, .3f, 0.3f));
+	metal left = metal(vec3(0.8f, 0.8f, 0.8f));
+	metal right = metal(vec3(0.8f, 0.6f, 0.2f));
 
 	float small_radius = 0.5f;
 	float big_radius = 100.0f;
 	sphere small_sphere = sphere(vec3(0.0f, 0.0f, -1.0f), small_radius, std::make_shared<lambertian>(center));
 	sphere big_sphere = sphere(vec3(0.0f, -(small_radius + big_radius), -1.0f), big_radius, std::make_shared<lambertian>(ground));
+	sphere left_sphere = sphere(vec3((-2.0f * small_radius), 0.0f, -1.0f), small_radius, std::make_shared<metal>(left));
+	sphere right_sphere = sphere(vec3((2.0f * small_radius), 0.0f, -1.0f), small_radius, std::make_shared<metal>(right));
 
 	hittable_list world = hittable_list();
 	world.add(std::make_shared<sphere>(small_sphere));
 	world.add(std::make_shared<sphere>(big_sphere));
+	world.add(std::make_shared<sphere>(left_sphere));
+	world.add(std::make_shared<sphere>(right_sphere));
 
 	// Camera
 	camera cam;

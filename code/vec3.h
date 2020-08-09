@@ -138,4 +138,10 @@ vec3 random_unit_vec3()
 	return vec3(r * cos(a), r * sin(a), z);
 }
 
+vec3 reflect(const vec3 &v, const vec3 &n)
+{
+	float factor = 2.0f * dot_product(v, n);
+	return subtract_vectors(v, multiply_by_scalar(n, factor));
+}
+
 #endif
