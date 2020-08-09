@@ -53,6 +53,7 @@ void run_vec3_tests()
 	for (int i = 0; i < 10; ++i)
 	{
 		vec3 random_vector = random_vec3(-45, 45);
+		std::cout << "random_vector - x: " << random_vector.x() << " y: " << random_vector.y() << " z: " << random_vector.z() << "\n";
 		assert(random_vector.x() < 45);
 		assert(random_vector.x() > -45);
 		assert(random_vector.y() < 45);
@@ -65,6 +66,7 @@ void run_vec3_tests()
 	for (int i = 0; i < 10; ++i)
 	{
 		vec3 random_vector_in_sphere = random_in_unit_sphere();
+		std::cout << "random_vector_in_sphere - x: " << random_vector_in_sphere.x() << " y: " << random_vector_in_sphere.y() << " z: " << random_vector_in_sphere.z() << "\n";
 		assert(random_vector_in_sphere.x() < 1);
 		assert(random_vector_in_sphere.x() > -1);
 		assert(random_vector_in_sphere.y() < 1);
