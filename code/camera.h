@@ -6,21 +6,29 @@
 class camera
 {
 	public:
-		camera()
+		camera(vec3 look_from, vec3 look_at, vec3 up, float vertical_fov_deg, float aspect_ratio)
 		{
-			float aspect_ratio = 16.0f / 9.0f;
-			float viewport_height = 2.0f;
+			float theta = degrees_to_radians(vertical_fov_deg);
+			float h = tan(theta / 2.0f);
+			float viewport_height = 2.0f * h;
 			float viewport_width = aspect_ratio * viewport_height;
+
+			vec3 w = unit_vector(subtract_vectors(look_from, look_at));
+			vec3 u = unit_vector(cross_product(up, w));
+			vec3 v = cross_product(w, u);
+
+
 			float focal_length = 1.0f;
 
-			origin = vec3(0, 0, 0);
-			horizontal = vec3(viewport_width, 0, 0);
-			vertical = vec3(0, viewport_height, 0);
+			origin = look_from;
+			horizontal = multiply_by_scalar(u, viewport_width);
+			vertical = multiply_by_scalar(v, viewport_height);
+
 			vec3 half_horizontal = multiply_by_scalar(horizontal, -0.5f);
 			vec3 half_vertical  = multiply_by_scalar(vertical, -0.5f);
 
 			vec3 lower_left_corner = add_vectors(origin, half_horizontal, half_vertical);
-			focal_plane_lower_left_corner = add_vectors(lower_left_corner, vec3(0, 0, -focal_length));
+			focal_plane_lower_left_corner = subtract_vectors(lower_left_corner, w);
 		}
 
 		ray get_ray(float u, float v) const

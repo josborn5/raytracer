@@ -71,7 +71,7 @@ int main()
 	world.add(std::make_shared<sphere>(right_sphere));
 
 	// Camera
-	camera cam;
+	camera cam = camera(vec3(-2,2,1), vec3(0,0,-1), vec3(0,1,0), 20.0f, aspect_ratio);
 	
 	for (int j = image_height - 1; j >= 0; --j)
 	{
