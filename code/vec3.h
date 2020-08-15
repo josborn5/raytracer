@@ -23,7 +23,7 @@ class vec3
 
 		vec3 negate() const
 		{
-			return vec3(-e[0], -e[1], -e[3]);
+			return vec3(-e[0], -e[1], -e[2]);
 		}
 
 		vec3 multiply_current(float t)
