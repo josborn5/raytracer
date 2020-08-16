@@ -14,7 +14,7 @@ float degrees_to_radians(float degrees)
 
 float random_float()
 {
-	return rand() / (static_cast<float>RAND_MAX + 1.0f);
+	return rand() / (static_cast<float>(RAND_MAX) + 1.0f);
 }
 
 float random_float(float min, float max)
