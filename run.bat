@@ -1,5 +1,5 @@
 pushd bin
 
-raytracer.exe > ..\image.ppm
+console.exe > ..\image.ppm
 
 popd

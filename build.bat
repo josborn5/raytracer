@@ -16,7 +16,7 @@ pushd %OUTPUT_DIR%
 
 del *.pdb > NUL 2> NUL
 
-cl -nologo -Zi -FC ..\%CODE_DIR%\raytracer.cpp /link user32.lib gdi32.lib -incremental:no -opt:ref
+cl -nologo -Zi -FC ..\%CODE_DIR%\console.cpp /link user32.lib gdi32.lib -incremental:no -opt:ref
 
 cl -nologo -Zi -FC ..\%CODE_DIR%\unit_tests.cpp /link user32.lib gdi32.lib -incremental:no -opt:ref
 

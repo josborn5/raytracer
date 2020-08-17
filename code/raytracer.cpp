@@ -4,11 +4,11 @@
 #include "hittable_list.h"
 #include "sphere.h"
 #include "vec3.h"
-#include "color.h"
 #include "ray.h"
 #include "lambertian.h"
 #include "metal.h"
 #include <iostream>
+#include <list>
 
 vec3 ray_color(const ray &r, const hittable_list &world, int depth)
 {
@@ -38,18 +38,15 @@ vec3 ray_color(const ray &r, const hittable_list &world, int depth)
 	return add_vectors(white_blend, blue_blend);
 }
 
-int main()
+std::list<vec3> ray_trace(int image_width, int image_height, int max_color, int samples_per_pixel)
 {
+	// Output
+	std::list<vec3> image_data;
+	int pixel_count = image_width * image_height;
+	
 	// Image
-	const float aspect_ratio = 16.0f / 9.0f;
-	const int image_width = 400;
-	const int image_height = static_cast<int>(image_width / aspect_ratio);
-	const int samples_per_pixel = 100;
+	const float aspect_ratio = static_cast<float>(image_width) / static_cast<float>(image_height);
 	int max_depth = 50;
-
-	// Log the content of a ppm file format to console (so the caller of this program can pipe to a file to create an image file)
-	const int max_color = 255;
-	std::cout << "P3\n" << image_width << " " << image_height << "\n" << max_color << "\n";
 
 	// World
 	lambertian ground = lambertian(vec3(0.8f, 0.8f, 0.0f));
@@ -71,7 +68,7 @@ int main()
 	world.add(std::make_shared<sphere>(right_sphere));
 
 	// Camera
-	camera cam = camera(vec3(-2,2,1), vec3(0,0,-1), vec3(0,1,0), 20.0f, aspect_ratio);
+	camera cam = camera(vec3(-2,2,1), vec3(0,0,-1), vec3(0,1,0), 45.0f, aspect_ratio);
 	
 	for (int j = image_height - 1; j >= 0; --j)
 	{
@@ -89,8 +86,10 @@ int main()
 				pixel_color.add_current(sample_color);
 			}
 
-			write_color(std::cout, pixel_color, samples_per_pixel);
+			image_data.push_back(pixel_color);
 		}
 	}
 	std::cerr << "\nDone.\n";
+
+	return image_data;
 }
