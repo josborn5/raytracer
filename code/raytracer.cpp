@@ -7,8 +7,8 @@
 #include "ray.h"
 #include "lambertian.h"
 #include "metal.h"
+#include "vec3_list.h"
 #include <iostream>
-#include <list>
 
 vec3 ray_color(const ray &r, const hittable_list &world, int depth)
 {
@@ -38,10 +38,10 @@ vec3 ray_color(const ray &r, const hittable_list &world, int depth)
 	return add_vectors(white_blend, blue_blend);
 }
 
-std::list<vec3> ray_trace(int image_width, int image_height, int max_color, int samples_per_pixel)
+vec3_list ray_trace(int image_width, int image_height, int max_color, int samples_per_pixel)
 {
 	// Output
-	std::list<vec3> image_data;
+	vec3_list image_data = vec3_list();
 	int pixel_count = image_width * image_height;
 	
 	// Image
@@ -86,7 +86,7 @@ std::list<vec3> ray_trace(int image_width, int image_height, int max_color, int 
 				pixel_color.add_current(sample_color);
 			}
 
-			image_data.push_back(pixel_color);
+			image_data.add(pixel_color);
 		}
 	}
 	std::cerr << "\nDone.\n";
