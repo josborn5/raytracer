@@ -20,4 +20,6 @@ cl -nologo -Zi -FC /EHsc ..\%CODE_DIR%\console.cpp /link user32.lib gdi32.lib -i
 
 cl -nologo -Zi -FC /EHsc ..\%CODE_DIR%\unit_tests.cpp /link user32.lib gdi32.lib -incremental:no -opt:ref
 
+cl -nologo -Zi -FC /EHsc ..\%CODE_DIR%\window.cpp /link user32.lib Gdi32.lib winmm.lib ..\lib\gentle_giant.lib -incremental:no -opt:ref
+
 popd
